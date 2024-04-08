@@ -22,13 +22,8 @@ def read_data(file_name, field):
         if field == key:
             sequential_data = data[field]
             return sequential_data
-        else:
-            return None
+    return None
 
-    with open(file_path) as data_file:
-        data = json.load(data_file)
-
-    return data.get(field, None)
 
 def linear_search(sequence, number):
     positions = []
@@ -40,11 +35,39 @@ def linear_search(sequence, number):
     return {"positions": positions, "count": count}
 
 
+def pattern_search(sequence, pattern=""):
+
+    positions = set()
+    seq_lenght = len(sequence)
+    pattern_lenght = len(pattern)
+
+    for i in range(seq_lenght - pattern_lenght + 1):
+        if sequence[i:i+pattern_lenght] == pattern:
+            positions.add(i)
+
+    return positions
+
+
+def binary_search(sequence, number):
+    left, right = 0, len(sequence) - 1
+
+    while left <= right:
+        mid = (left + right) // 2
+        if sequence[mid] == number:
+            return mid
+        elif sequence[mid] < number:
+            left = mid + 1
+        else:
+            right = mid - 1
+
+    return None
+
+
+
 def main():
-    sequential_data = read_data("sequential.json", "unordered_numbers")
-    print("Sequential_data", sequential_data)
-    dictionary = linear_search(sequential_data, 0)
-    print(dictionary)
+    sequential_data = read_data("sequential.json", "ordered_numbers")
+    index = binary_search(sequential_data, 22)
+    print(index)
     return
 
 
